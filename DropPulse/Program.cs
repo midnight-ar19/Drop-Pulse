@@ -1,3 +1,7 @@
+using DropPulse.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+
 namespace DropPulse
 {
     public class Program
@@ -8,6 +12,13 @@ namespace DropPulse
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            
+
+
+            builder.Services.AddDbContext<DroppulseContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("conexion")));
+
+
 
             var app = builder.Build();
 
