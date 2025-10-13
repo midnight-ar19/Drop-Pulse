@@ -17,6 +17,7 @@ namespace DropPulse
 
             builder.Services.AddDbContext<DroppulseContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("conexion")));
+            builder.Services.AddSingleton<Services.SimulationService>();
 
 
 
