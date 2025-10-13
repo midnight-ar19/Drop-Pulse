@@ -6,9 +6,9 @@ namespace DropPulse.Services
     {
         private readonly Random _random = new();
 
-        public SensorDatum GenerateSensorData()
+        public SensorData GenerateSensorData()
         {
-            var data = new SensorDatum
+            var data = new SensorData
             {
                 Timestamp = DateTime.UtcNow,
 

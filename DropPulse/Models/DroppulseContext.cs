@@ -15,11 +15,11 @@ public partial class DroppulseContext : DbContext
     {
     }
 
-    public virtual DbSet<IrrigationEvent> IrrigationEvents { get; set; }
+    public virtual DbSet<Irrigation> Irrigation { get; set; }
 
     public virtual DbSet<PlantProfile> PlantProfiles { get; set; }
 
-    public virtual DbSet<SensorDatum> SensorData { get; set; }
+    public virtual DbSet<SensorData> SensorData { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -30,11 +30,10 @@ public partial class DroppulseContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<IrrigationEvent>(entity =>
+        modelBuilder.Entity<Irrigation>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Irrigati__3214EC07B7681282");
 
-            entity.Property(e => e.TriggerReason).HasMaxLength(50);
         });
 
         modelBuilder.Entity<PlantProfile>(entity =>
@@ -44,7 +43,7 @@ public partial class DroppulseContext : DbContext
             entity.Property(e => e.Name).HasMaxLength(100);
         });
 
-        modelBuilder.Entity<SensorDatum>(entity =>
+        modelBuilder.Entity<SensorData>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__SensorDa__3214EC0706F6E145");
         });
