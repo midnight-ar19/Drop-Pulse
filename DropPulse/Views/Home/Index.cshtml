@@ -1,8 +1,73 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
-}
+    // DATOS DE PRUEBA
+   
+    var historial = new List<dynamic>
+    {
+        new { ID = 1, HumedadSuelo = "35%", HumedadAire = "65%", Temperatura = "25.5°C", Regado = "Sí" },
+        new { ID = 2, HumedadSuelo = "28%", HumedadAire = "68%", Temperatura = "24.9°C", Regado = "No" },
+        new { ID = 3, HumedadSuelo = "40%", HumedadAire = "62%", Temperatura = "26.1°C", Regado = "Sí" },
+        new { ID = 4, HumedadSuelo = "31%", HumedadAire = "70%", Temperatura = "25.0°C", Regado = "No" },
+        new { ID = 5, HumedadSuelo = "33%", HumedadAire = "66%", Temperatura = "25.7°C", Regado = "No" }
+    };
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container py-5">
+
+    <h1 class="mb-4 fw-light text-dark border-bottom pb-2">Panel de Historial de Riego y Sensores 💧</h1>
+    <p class="lead text-muted">Visualización de registros de humedad, temperatura y riego del sistema.</p>
+
+
+    <div class="card shadow-lg border-0 mt-4">
+
+        <div class="card-header bg-white border-bottom py-3">
+            <h5 class="mb-0 text-dark">Registros Recientes</h5>
+        </div>
+
+
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-borderless mb-0 align-middle">
+
+                    <thead class="text-uppercase small table-light">
+                        <tr>
+                            <th scope="col" class="text-center">ID</th>
+                            <th scope="col">Humedad del Suelo</th>
+                            <th scope="col">Humedad del Aire</th>
+                            <th scope="col">Temperatura</th>
+                            <th scope="col" class="text-center">Estado de Riego</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var registro in historial)
+                        {
+                            <tr>
+                                <td class="text-center fw-bold text-secondary">@registro.ID</td>
+
+                                <td><i class="bi bi-thermometer-half"></i> @registro.HumedadSuelo</td>
+                                <td>@registro.HumedadAire</td>
+
+                                <td><i class="bi bi-cloud-sun"></i> @registro.Temperatura</td>
+
+                                <td class="text-center">
+                                    @if (registro.Regado == "Sí")
+                                    {
+                                        <span class="badge rounded-pill bg-success-subtle text-success py-2 px-3">REGADO</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge rounded-pill bg-danger-subtle text-danger py-2 px-3">NO REGADO</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer bg-light border-top small text-muted text-end">
+            Último renderizado: @DateTime.Now.ToString("dd/MM/yyyy HH:mm")
+        </div>
+    </div>
 </div>
+}
+                                   
