@@ -1,4 +1,5 @@
 using DropPulse.Models;
+using DropPulse.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -17,7 +18,14 @@ namespace DropPulse
 
             builder.Services.AddDbContext<DroppulseContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("conexion")));
-            builder.Services.AddSingleton<Services.SimulationService>();
+            builder.Services.AddScoped<Services.SimulationService>();
+            builder.Services.AddScoped<Services.IrrigationService>();
+
+            builder.Services.AddHttpClient<AiClientService>(client =>
+            {
+                string baseUrl = builder.Configuration.GetValue<string>("AiService:BaseUrl");
+                client.BaseAddress = new Uri(baseUrl);
+            });
 
 
 
