@@ -1,63 +1,78 @@
 ﻿@model List<HistorialViewModel>
 
-<div class="container py-5">
+<div class="container mx-auto py-10 px-4 fade-in">
 
-    <h1 class="mb-4 fw-light text-dark border-bottom pb-2">
-        Panel de Historial de Riego y Sensores 💧
-    </h1>
-    <p class="lead text-muted">
-        Visualización de registros de humedad, temperatura y riego del sistema.
-    </p>
+    <!-- Encabezado -->
+    <div class="mb-8 text-center">
+        <h1 class="text-3xl font-semibold text-gray-800 mb-2">
+            Panel de Historial de Riego y Sensores 💧
+        </h1>
+        <p class="text-gray-500 max-w-2xl mx-auto">
+            Visualización de registros de humedad, temperatura y riego del sistema.
+        </p>
+    </div>
 
-    <p>Haz clic en el botón para iniciar una nueva verificación del sistema de riego.</p>
+    <!-- Acción -->
+    <div class="flex flex-col items-center gap-4 mb-6">
+        <p class="text-gray-600">Haz clic en el botón para iniciar una nueva verificación del sistema de riego.</p>
 
-    <a asp-controller="Home" asp-action="TriggerIrrigationCheck" class="btn btn-primary">
-        Iniciar Verificación de Riego
-    </a>
+        <a asp-controller="Home" asp-action="TriggerIrrigationCheck"
+           class="inline-flex items-center gap-2 bg-blue-600 text-white font-medium px-5 py-2.5 rounded-lg shadow-md hover:bg-blue-700 transition duration-200">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+            Iniciar Verificación de Riego
+        </a>
+    </div>
 
-    <hr />
-
+    <!-- Mensaje -->
     @if (TempData["Message"] != null)
     {
-        <div class="alert alert-success">
+        <div class="bg-green-100 border border-green-300 text-green-700 px-4 py-3 rounded-lg mb-6 shadow-sm">
             @TempData["Message"]
         </div>
     }
 
-    <div class="card shadow-lg border-0 mt-4">
-        <div class="card-header bg-white border-bottom py-3">
-            <h5 class="mb-0 text-dark">Registros Recientes</h5>
+    <!-- Tarjeta -->
+    <div class="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
+        <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+            <h5 class="text-lg font-semibold text-gray-700">Registros Recientes</h5>
         </div>
 
-        <div class="card-body p-3">
-            <div class="table-responsive">
-                <table id="historialTable" class="table table-striped table-bordered align-middle">
-                    <thead class="table-light text-uppercase small">
-                        <tr>
-                            <th class="text-center">ID</th>
-                            <th>Humedad del Suelo</th>
-                            <th>Humedad del Aire</th>
-                            <th>Temperatura</th>
-                            <th class="text-center">Estado de Riego</th>
+        <div class="p-4">
+            <div class="overflow-x-auto">
+                <table id="historialTable" class="min-w-full border-collapse text-sm">
+                    <thead>
+                        <tr class="bg-gray-100 text-gray-700 uppercase text-xs tracking-wider">
+                            <th class="text-center py-3 px-4">ID</th>
+                            <th class="py-3 px-4">Humedad del Suelo</th>
+                            <th class="py-3 px-4">Humedad del Aire</th>
+                            <th class="py-3 px-4">Temperatura</th>
+                            <th class="text-center py-3 px-4">Estado de Riego</th>
                         </tr>
                     </thead>
 
-                    <tbody>
+                    <tbody class="text-gray-700">
                         @foreach (var registro in Model)
                         {
-                            <tr>
-                                <td class="text-center fw-bold text-secondary">@registro.ID</td>
-                                <td><i class="bi bi-moisture"></i> @registro.HumedadSuelo.ToString("F2") %</td>
-                                <td><i class="bi bi-droplet-half"></i> @registro.HumedadAire.ToString("F2") %</td>
-                                <td><i class="bi bi-thermometer-sun"></i> @registro.Temperatura.ToString("F2") °C</td>
-                                <td class="text-center">
+                            <tr class="hover:bg-gray-50 transition">
+                                <td class="text-center font-semibold text-gray-500 py-3 px-4">@registro.ID</td>
+                                <td class="py-3 px-4">@registro.HumedadSuelo.ToString("F2") %</td>
+                                <td class="py-3 px-4">@registro.HumedadAire.ToString("F2") %</td>
+                                <td class="py-3 px-4">@registro.Temperatura.ToString("F2") °C</td>
+                                <td class="text-center py-3 px-4">
                                     @if (registro.Regado == "Sí")
                                     {
-                                        <span class="badge rounded-pill bg-success-subtle text-success py-2 px-3">REGADO</span>
+                                        <span class="inline-block bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full">
+                                            REGADO
+                                        </span>
                                     }
                                     else
                                     {
-                                        <span class="badge rounded-pill bg-danger-subtle text-danger py-2 px-3">NO REGADO</span>
+                                        <span class="inline-block bg-red-100 text-red-700 text-xs font-semibold px-3 py-1 rounded-full">
+                                            NO REGADO
+                                        </span>
                                     }
                                 </td>
                             </tr>
@@ -67,7 +82,7 @@
             </div>
         </div>
 
-        <div class="card-footer bg-light border-top small text-muted text-end">
+        <div class="bg-gray-50 border-t border-gray-200 px-6 py-3 text-xs text-gray-500 text-right">
             Último renderizado: @DateTime.Now.ToString("dd/MM/yyyy HH:mm")
         </div>
     </div>
@@ -77,9 +92,7 @@
     <script>
         $(document).ready(function () {
             $('#historialTable').DataTable({
-                language: {
-                    url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json'
-                },
+                language: { url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json' },
                 pageLength: 10,
                 lengthMenu: [5, 10, 25, 50],
                 order: [[0, 'desc']]

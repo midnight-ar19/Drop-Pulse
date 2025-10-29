@@ -35,20 +35,19 @@ namespace DropPulse.Controllers
         {
 
             // 3. CONSULTAR LA BASE DE DATOS
-            var historial = _context.Irrigation // Empezamos desde la tabla de Riegos
-                .Include(i => i.SensorData)     // ¡Crucial! Incluimos los datos del sensor relacionados
-                .OrderByDescending(i => i.Id)   // Ordenamos para mostrar los más nuevos primero
-                .Take(10)                       // Tomamos solo los últimos 10 para no sobrecargar la tabla
-                .Select(i => new HistorialViewModel // 4. MAPEAMOS al ViewModel
+            var historial = _context.Irrigation 
+                .Include(i => i.SensorData)     
+                .OrderByDescending(i => i.Id)   
+                .Take(10)                       
+                .Select(i => new HistorialViewModel
                 {
                     ID = i.Id,
                     HumedadSuelo = i.SensorData.SoilMoisture,
                     HumedadAire = i.SensorData.AirHumidity,
                     Temperatura = i.SensorData.Temperature,
-                    // Usamos un operador ternario para convertir el bool a string
                     Regado = i.WasIrrigationActivated ? "Sí" : "No"
                 })
-                .ToList(); // Ejecutamos la consulta y la convertimos en una lista
+                .ToList(); 
 
             // 5. PASAMOS LA LISTA A LA VISTA
             return View(historial);
