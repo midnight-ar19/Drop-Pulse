@@ -27,7 +27,7 @@ namespace DropPulse.Controllers
         public async Task<IActionResult> TriggerIrrigationCheck()
         {
             await _irrigationService.ProcessAndStoreIrrigationDecision();
-            TempData["Message"] = "Ciclo de riego procesado y guardado con éxito.";
+            TempData["Message"] = "Ciclo de riego procesado y guardado con exito.";
             return RedirectToAction("Index");
         }
 
@@ -45,7 +45,7 @@ namespace DropPulse.Controllers
                     HumedadSuelo = i.SensorData.SoilMoisture,
                     HumedadAire = i.SensorData.AirHumidity,
                     Temperatura = i.SensorData.Temperature,
-                    Regado = i.WasIrrigationActivated ? "Sí" : "No"
+                    Regado = i.WasIrrigationActivated ? "Si" : "No"
                 })
                 .ToList(); 
 
