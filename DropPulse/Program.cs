@@ -13,12 +13,13 @@ namespace DropPulse
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            
+
 
 
             builder.Services.AddDbContext<DroppulseContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("conexion")));
-            builder.Services.AddScoped<Services.SimulationService>();
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            //builder.Services.AddScoped<Services.SimulationService>();
+            builder.Services.AddSingleton<SensorService>();
             builder.Services.AddScoped<Services.IrrigationService>();
 
             builder.Services.AddHttpClient<AiClientService>(client =>

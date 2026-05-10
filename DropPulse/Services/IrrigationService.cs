@@ -4,18 +4,18 @@ namespace DropPulse.Services
 {
     public class IrrigationService
     {
-        private readonly SimulationService _simulationService;
+        private readonly SensorService _sensorService;
         private readonly AiClientService _aiClientService;
         private readonly DroppulseContext _context;
         private readonly ILogger<IrrigationService> _logger;
 
         public IrrigationService(
-            SimulationService simulationService,
+            SensorService sensorService,
             AiClientService aiClientService,
             DroppulseContext context,
             ILogger<IrrigationService> logger)
         {
-            _simulationService = simulationService;
+            _sensorService = sensorService;
             _aiClientService = aiClientService;
             _context = context;
             _logger = logger;
@@ -23,10 +23,16 @@ namespace DropPulse.Services
 
         public async Task ProcessAndStoreIrrigationDecision()
         {
-            var simulatedSensorData = _simulationService.GenerateSensorData();
+            var sensorData = _sensorService.GetLatest();
+
+            if (sensorData == null)
+            {
+                _logger.LogWarning("Aún no hay datos del Arduino.");
+                return;
+            }
             _logger.LogInformation("Datos de sensor generados.");
 
-            var aiResponse = await _aiClientService.GetPredictionAsync(simulatedSensorData);
+            var aiResponse = await _aiClientService.GetPredictionAsync(sensorData);
 
             if (aiResponse == null || aiResponse.ReceivedData == null)
             {
